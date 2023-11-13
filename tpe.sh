@@ -1,3 +1,5 @@
+# IMPORTANTE : falta el manejo de errores en todos los pasos del programa
+
 #!/bin/bash
 API_KEY="xrbr4d7jguscwkdg7hu393gt"
 
