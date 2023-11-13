@@ -9,7 +9,7 @@ prefix = $1
 year = $2
 
 #Get the season_id (via extract_season_id.xq) and assign it to local variable "id"
-$id=(java net.sf.saxon.Query extract_season_id.xq java net.sf.saxon.Query extract_season_id.xq -ext season_year=$year season_prefix=$prefix)
+$id=(java net.sf.saxon.Query extract_season_id.xq java net.sf.saxon.Query extract_season_id.xq -ext season_year=$year season_prefix=$prefix \!method=text)
 
 #Get season_info.xml
 $ curl -X GET "https://api.sportradar.us/rugby-league/trial/v3/en/seasons/$id/info.xml?api_key=${API_KEY}" -o season_info.xml
