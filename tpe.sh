@@ -37,7 +37,7 @@ rm season_info_aux.xml
 rm season_lineups_aux.xml
 
 #Generate season_data.xml (via extract_season_data.xq)
-java net.sf.saxon.Query extract_season_data.xq > season_data.xml
+java net.sf.saxon.Query extract_season_data.xq -ext year=$2 prefix=$1 > season_data.xml
 
 #Generate season_page.md (via generate_markdown.xsl)
 java net.sf.saxon.Transform season_data.xml generate_markdown.xsl > season_page.md
