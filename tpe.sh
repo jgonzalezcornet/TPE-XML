@@ -1,7 +1,13 @@
-# IMPORTANTE : falta el manejo de errores en todos los pasos del programa
+# Run this script with the command: ./tpe.sh your_season_prefix your_season_year
+# If any parameter errors occur, check season_data.xml for details (also visible in season_page.md).
+# Parameter criteria: neither prefix or year can be empty, year must be an integer >= 2007.
 
 #!/bin/bash
 API_KEY="xrbr4d7jguscwkdg7hu393gt"
+
+#Rename parameters
+PREFIX=$1
+YEAR=$2
 
 #Get seasons_aux.xml file from API
 curl -X GET "https://api.sportradar.us/rugby-league/trial/v3/en/seasons.xml?api_key=${API_KEY}" -o seasons_aux.xml
@@ -15,7 +21,7 @@ sed 's/xmlns:xsi="http:\/\/www\.w3\.org\/2001\/XMLSchema-instance"//;
 rm seasons_aux.xml
 
 #Get the season_id (via extract_season_id.xq) and assign it to local variable "id"
-id=$(java net.sf.saxon.Query extract_season_id.xq -ext season_year=$2 season_prefix=$1 \!method=text)
+id=$(java net.sf.saxon.Query extract_season_id.xq -ext season_year=$year season_prefix=$prefix \!method=text)
 
 #Get season_info_aux.xml
 curl -X GET "https://api.sportradar.us/rugby-league/trial/v3/en/seasons/$id/info.xml?api_key=${API_KEY}" -o season_info_aux.xml
@@ -37,7 +43,7 @@ rm season_info_aux.xml
 rm season_lineups_aux.xml
 
 #Generate season_data.xml (via extract_season_data.xq)
-java net.sf.saxon.Query extract_season_data.xq -ext year=$2 prefix=$1 > season_data.xml
+java net.sf.saxon.Query extract_season_data.xq -ext year=$year prefix=$prefix > season_data.xml
 
 #Generate season_page.md (via generate_markdown.xsl)
 java net.sf.saxon.Transform season_data.xml generate_markdown.xsl > season_page.md
