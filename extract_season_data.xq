@@ -1,3 +1,6 @@
+declare variable $prefix as xs:string external;
+declare variable $year as xs:string external;
+
 declare function local:get_groups($stage as element()*) as element()* {
         for $group in $stage//group
         return element group {
@@ -40,7 +43,7 @@ declare function local:get_competitors_lineup($file as document-node(), $competi
                 <name>{data($competitor/@name)}</name>,
                 <players>{local:get_players($file, $competitor)}</players>
         }
-};
+}; 
 
 let $info_doc := doc('season_info.xml')
 let $info_root := doc('season_info.xml')/season_info
@@ -51,8 +54,32 @@ let $info_season := doc('season_info.xml')//season
 let $competition := $info_season/competition
 let $competitors := $info_root/stages/stage/groups/group/competitors
 
+if (empty($year)) then
+let $data := (
+        <season_data>
+                <error>Year cannot be empty</error>
+        </season_data>
+)
+else if (empty($prefix)) then
+let $data := (
+        <season_data>
+                <error>Name prefix cannot be empty</error>
+        </season_data>
+)
+else if (not($year castable as xs:integer)) then
+let $data := (
+        <season_data>
+                <error>Year must be an integer number</error>
+        </season_data>
+)
+else if (xs:integer($year) < 2007) then
+let $data := (
+        <season_data>
+                <error>Year must be equal to or greater than 2007</error>
+        </season_data>
+)
+else
 let $data:= (
-
 <season_data>
         <resultT>
                 <season>
@@ -79,5 +106,6 @@ let $data:= (
         </resultT>
 </season_data>
 )
+
 
 return $data
