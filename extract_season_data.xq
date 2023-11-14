@@ -34,7 +34,7 @@ declare function local:get_players($file as document-node(), $competitor as elem
 };
 
 declare function local:get_competitors_lineup($file as document-node(), $competitors as element()*) as element()* {
-        for $competitor in $competitors
+        for $competitor in $competitors/competitor
         return element competitor {
                 attribute id {$competitor/@id},
                 <name>{data($competitor/@name)}</name>,
