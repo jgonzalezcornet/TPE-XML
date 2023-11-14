@@ -21,7 +21,7 @@ sed 's/xmlns:xsi="http:\/\/www\.w3\.org\/2001\/XMLSchema-instance"//;
 rm seasons_aux.xml
 
 #Get the season_id (via extract_season_id.xq) and assign it to local variable "id"
-id=$(java net.sf.saxon.Query extract_season_id.xq -ext season_year=$year season_prefix=$prefix \!method=text)
+id=$(java net.sf.saxon.Query extract_season_id.xq -ext season_year=$YEAR season_prefix=$PREFIX \!method=text)
 
 #Get season_info_aux.xml
 curl -X GET "https://api.sportradar.us/rugby-league/trial/v3/en/seasons/$id/info.xml?api_key=${API_KEY}" -o season_info_aux.xml
@@ -43,7 +43,7 @@ rm season_info_aux.xml
 rm season_lineups_aux.xml
 
 #Generate season_data.xml (via extract_season_data.xq)
-java net.sf.saxon.Query extract_season_data.xq -ext year=$year prefix=$prefix > season_data.xml
+java net.sf.saxon.Query extract_season_data.xq -ext year=$YEAR prefix=$PREFIX > season_data.xml
 
 #Generate season_page.md (via generate_markdown.xsl)
 java net.sf.saxon.Transform season_data.xml generate_markdown.xsl > season_page.md
