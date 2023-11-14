@@ -1,6 +1,5 @@
 <xsl:stylesheet version="2.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 <xsl:output method="html" indent="yes"/>
-  
 <!--Main template-->
 <xsl:template match="/">
 <xsl:choose>
@@ -46,7 +45,6 @@
 </xsl:otherwise>
 </xsl:choose>
 </xsl:template>
-
 <!--Header template-->
 <xsl:template name="headerT">
   <xsl:param name="season_name"/>
@@ -60,7 +58,7 @@
 </xsl:template>
 
 <!--Stages template-->
-<xsl:template name="stageT">
+<xsl:template name="stagesT">
   <xsl:param name="stages"/>
   <xsl:for-each select="$stages/stage">
     <hr></hr>
@@ -68,8 +66,8 @@
     <hr></hr>
     <h4>Competitors:</h4>
     <ul>
-      <xsl:for-each select="./groups/group"><!-- for each of competitors-->
-        <li><xsl:value-of select="./competitor/name"/> (<xsl:value-of select="./competitor/abbreviation"/>)</li>
+      <xsl:for-each select="./groups/group/competitor"><!-- for each of competitors-->
+        <li><xsl:value-of select="./name"/> (<xsl:value-of select="./abbreviation"/>)</li>
       </xsl:for-each>
     </ul>
   </xsl:for-each>
@@ -91,7 +89,7 @@
       <th>Events played</th>
     </tr>
     <!-- for each ordered by events_played descendant-->
-    <xsl:for-each select="./players/player"><!-- for each of players-->
+  <xsl:for-each select="./players/player"> <!-- for each of players-->
     <xsl:sort select="./events_played" order="descending"/>
     <tr>
       <td><xsl:value-of select="./name"/></td><!--Name-->
@@ -113,5 +111,3 @@
 </xsl:template>
 
 </xsl:stylesheet>
-
-<!--asdasd-->
