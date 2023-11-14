@@ -4,23 +4,19 @@
 API_KEY="xrbr4d7jguscwkdg7hu393gt"
 
 #Get seasons.xml file from API
-curl -X GET "https://api.sportradar.us/rugby-league/trial/v3/en/seasons.xml?api_key=${API_KEY}" -o seasons.xml
-
-#Reassign parameter values to local variables
-prefix = $1
-year = $2
+curl -X GET "https://api.sportradar.us/rugby-league/trial/v3/en/seasons.xml?api_key={$API_KEY}" -o seasons.xml
 
 #Remove the XML Schema Namespace from seasons.xml
 !!!
 
 #Get the season_id (via extract_season_id.xq) and assign it to local variable "id"
-id=$(java net.sf.saxon.Query extract_season_id.xq java net.sf.saxon.Query extract_season_id.xq -ext season_year=$year season_prefix=$prefix \!method=text)
+id=$(java net.sf.saxon.Query extract_season_id.xq -ext season_year=$2 season_prefix=$1 \!method=text)
 
 #Get season_info.xml
-$ curl -X GET "https://api.sportradar.us/rugby-league/trial/v3/en/seasons/$id/info.xml?api_key=${API_KEY}" -o season_info.xml
+curl -X GET "https://api.sportradar.us/rugby-league/trial/v3/en/seasons/$id/info.xml?api_key={$API_KEY}" -o season_info.xml
 
 #Get season_lineups.xml
-$ curl -X GET "https://api.sportradar.us/rugby-league/trial/v3/en/seasons/$id/lineups.xml?api_key=${API_KEY}" -o season_lineups.xml
+curl -X GET "https://api.sportradar.us/rugby-league/trial/v3/en/seasons/$id/lineups.xml?api_key={$API_KEY}" -o season_lineups.xml
 
 #Remove the XML Schema NameSpace from season_info.xml and season_lineups.xml
 !!!
@@ -29,3 +25,4 @@ $ curl -X GET "https://api.sportradar.us/rugby-league/trial/v3/en/seasons/$id/li
 java net.sf.saxon.Query extract_season_data.xq > season_data.xml
 
 #Generate season_page.md (via generate_markdown.xsl)
+java net.sf.saxon.Transform season_data.xml generate_markdown.xsl > season_page.md
