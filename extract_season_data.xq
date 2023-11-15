@@ -37,13 +37,16 @@ declare function local:get_players($file as document-node(), $competitor as elem
 };
 
 declare function local:get_competitors_lineup($file as document-node(), $competitors as element()*) as element()* {
-        for $competitor in $competitors/competitor
-        return element competitor {
-                attribute id {$competitor/@id},
-                <name>{data($competitor/@name)}</name>,
-                <players>{local:get_players($file, $competitor)}</players>
-        }
-}; 
+    let $competitorids := $file//competitor[@id=$competitors/@id]/@id
+    for $uniquecompetitor in distinct-values($competitorids)
+    let $competitor := ($file//competitor[@id=$uniquecompetitor])[1]
+    return element competitor {
+        attribute id {$competitor/@id},
+        <name>{$competitor/@name/string()}</name>,
+        <players>{local:get_players($file, $competitor)}</players>
+    }
+};
+
 
 let $info_doc := doc('season_info.xml')
 let $info_root := doc('season_info.xml')/season_info
@@ -52,7 +55,7 @@ let $lineups_root := doc('season_lineups.xml')/season_lineups
 
 let $info_season := doc('season_info.xml')//season
 let $competition := $info_season/competition
-let $competitors := $info_root/stages/stage/groups/group/competitors
+let $competitors := local:get_stages($info_doc)//competitor
 
 return
 if (empty(xs:string($year)) or not($year castable as xs:integer)) then
