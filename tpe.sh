@@ -9,6 +9,10 @@ API_KEY="xrbr4d7jguscwkdg7hu393gt"
 PREFIX=$1
 YEAR=$2
 
+#Remove any pre-existing files, in order to avoid any conflict
+rm *.xml 2> /dev/null || true
+rm season_page.md 2> /dev/null || true
+
 #Get seasons_aux.xml file from API
 curl "http://api.sportradar.us/rugby-league/trial/v3/en/seasons.xml?api_key=${API_KEY}" -o seasons_aux.xml
 
