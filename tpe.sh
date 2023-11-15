@@ -10,7 +10,7 @@ PREFIX=$1
 YEAR=$2
 
 #Get seasons_aux.xml file from API
-curl "http://api.sportradar.us/rugby-league/trial/v3/en/seasons.xml?api_key=${API_KEY}" -o seasons.xml
+curl "http://api.sportradar.us/rugby-league/trial/v3/en/seasons.xml?api_key=${API_KEY}" -o seasons_aux.xml
 
 #Remove the XML Schema Namespace from seasons_aux.xml (new final file created: seasons.xml)
 sed 's/xmlns:xsi="http:\/\/www\.w3\.org\/2001\/XMLSchema-instance"//; 
@@ -24,10 +24,10 @@ rm seasons_aux.xml
 id=$(java net.sf.saxon.Query extract_season_id.xq -ext season_year=$YEAR season_prefix=$PREFIX \!method=text)
 
 #Get season_info_aux.xml
-curl "http://api.sportradar.us/rugby-league/trial/v3/en/seasons/$id/info.xml?api_key=${API_KEY}" -o season_info.xml
+curl "http://api.sportradar.us/rugby-league/trial/v3/en/seasons/$id/info.xml?api_key=${API_KEY}" -o season_info_aux.xml
 
 #Get season_lineups_aux.xml
-curl "http://api.sportradar.us/rugby-league/trial/v3/en/seasons/$id/lineups.xml?api_key=${API_KEY}" -o season_lineups.xml 
+curl "http://api.sportradar.us/rugby-league/trial/v3/en/seasons/$id/lineups.xml?api_key=${API_KEY}" -o season_lineups_aux.xml 
 
 #Remove the XML Schema NameSpace from season_info.xml and season_lineups.xml
 sed 's/xmlns:xsi="http:\/\/www\.w3\.org\/2001\/XMLSchema-instance"//; 
