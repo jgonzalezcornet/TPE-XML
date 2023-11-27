@@ -72,27 +72,25 @@ else if (xs:integer($year) < 2007) then
         </season_data>
 else
 <season_data>
-        <resultT>
-                <season>
-                        <name>{data($info_season/@name)}</name>
-                        <competition>
-                                <name>{data($competition/@name)}</name>
-                                <gender>{data($competition/@gender)}</gender>
-                        </competition>
-                        <date>
-                                <start>{data($info_season/@start_date)}</start>
-                                <end>{data($info_season/@end_date)}</end>
-                                <year>{data($info_season/@year)}</year>
-                        </date>
-                </season>
+        <season>
+                <name>{data($info_season/@name)}</name>
+                <competition>
+                        <name>{data($competition/@name)}</name>
+                        <gender>{data($competition/@gender)}</gender>
+                </competition>
+                <date>
+                        <start>{data($info_season/@start_date)}</start>
+                        <end>{data($info_season/@end_date)}</end>
+                        <year>{data($info_season/@year)}</year>
+                </date>
+        </season>
 
-                <stages>
-                        {local:get_stages($info_doc)}
-                </stages>
+        <stages>
+                {local:get_stages($info_doc)}
+        </stages>
 
-                <competitors>
-                        {local:get_competitors_lineup($lineups_doc, $competitors)}
-                </competitors>
+        <competitors>
+                {local:get_competitors_lineup($lineups_doc, $competitors)}
+        </competitors>
 
-        </resultT>
 </season_data>
