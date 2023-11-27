@@ -2,10 +2,21 @@
 # If any parameter errors occur, check season_data.xml for details (also visible in season_page.md).
 # Parameter criteria: neither prefix or year can be empty, year must be an integer >= 2007.
 
-#!/bin/bash
-API_KEY="xrbr4d7jguscwkdg7hu393gt"
+# #!/bin/bash
+# API_KEY="xrbr4d7jguscwkdg7hu393gt"
 
-#Rename parameters
+# Handling possible argument errors
+if [ $# -ne 2]; then
+     echo "Invalid argument amount. Arguments must be prefix, year"
+fi
+
+# Check if API_KEY has been defined
+if [ -z $API_KEY]; then
+     echo "API_KEY is not defined. Cannot operate."
+     exit 1
+fi
+
+# Rename parameters (for own comfort when coding)
 PREFIX=$1
 YEAR=$2
 
@@ -51,3 +62,5 @@ java net.sf.saxon.Query extract_season_data.xq -ext year=$YEAR prefix=$PREFIX > 
 
 #Generate season_page.md (via generate_markdown.xsl)
 java net.sf.saxon.Transform season_data.xml generate_markdown.xsl > season_page.md
+
+echo Finished.
