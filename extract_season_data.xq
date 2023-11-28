@@ -58,13 +58,13 @@ let $competition := $info_season/competition
 let $competitors := local:get_stages($info_doc)//competitor
 
 return
-if (empty(xs:string($year)) or not($year castable as xs:integer)) then
-        <season_data>
-                <error>Year must be an integer number and cannot be empty</error>
-        </season_data>
-else if (empty("$prefix")) then
+if (empty("$prefix")) then
         <season_data>
                 <error>Name prefix cannot be empty</error>
+        </season_data>
+else if (empty(xs:string($year)) or not($year castable as xs:integer)) then
+        <season_data>
+                <error>Year must be an integer number and cannot be empty</error>
         </season_data>
 else if (xs:integer($year) < 2007) then
         <season_data>
