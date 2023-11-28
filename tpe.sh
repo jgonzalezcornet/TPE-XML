@@ -6,12 +6,12 @@
 # API_KEY="xrbr4d7jguscwkdg7hu393gt"
 
 # Handling possible argument errors
-if [ $# -ne 2]; then
+if [ $# -ne 2 ]; then
      echo "Invalid argument amount. Arguments must be prefix, year"
 fi
 
 # Check if API_KEY has been defined
-if [ -z $API_KEY]; then
+if [ -z $API_KEY ]; then
      echo "API_KEY is not defined. Cannot operate."
      exit 1
 fi
