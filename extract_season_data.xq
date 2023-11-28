@@ -62,7 +62,7 @@ if (empty(xs:string($year)) or not($year castable as xs:integer)) then
         <season_data>
                 <error>Year must be an integer number and cannot be empty</error>
         </season_data>
-else if (empty($prefix)) then
+else if (empty("$prefix")) then
         <season_data>
                 <error>Name prefix cannot be empty</error>
         </season_data>
